@@ -34,6 +34,11 @@ var (
 		"Was the Bind instance query successful?",
 		nil, nil,
 	)
+	bindVersion = prometheus.NewDesc(
+		prometheus.BuildFQName(namespace, "", "bind_version"),
+		"The version of the running bind process."
+		nil, nil,
+	)
 	bootTime = prometheus.NewDesc(
 		prometheus.BuildFQName(namespace, "", "boot_time_seconds"),
 		"Start time of the BIND process since unix epoch in seconds.",
@@ -42,6 +47,11 @@ var (
 	configTime = prometheus.NewDesc(
 		prometheus.BuildFQName(namespace, "", "config_time_seconds"),
 		"Time of the last reconfiguration since unix epoch in seconds.",
+		nil, nil,
+	)
+	currentTime = prometheus.NewDesc(
+		prometheus.BuildFQName(namespace, "", "current_time_seconds"),
+		"Time on the system during the last scrape since unix epoch in seconds.",
 		nil, nil,
 	)
 	incomingQueries = prometheus.NewDesc(
@@ -199,8 +209,10 @@ func newServerCollector(s *bind.Statistics) prometheus.Collector {
 
 // Describe implements prometheus.Collector.
 func (c *serverCollector) Describe(ch chan<- *prometheus.Desc) {
+	ch <- bindVersion
 	ch <- bootTime
 	ch <- configTime
+	ch <- currentTime
 	ch <- incomingQueries
 	ch <- incomingRequests
 	ch <- serverQueryErrors

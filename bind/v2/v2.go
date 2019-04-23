@@ -26,8 +26,10 @@ type Statistics struct {
 }
 
 type Server struct {
+	BindVersion string    `xml:"version"`
 	BootTime    time.Time `xml:"boot-time"`
 	ConfigTime  time.Time `xml:"config-time"`
+	CurrentTime time.Time `xml:"current-time"`
 	NSStats     []Counter `xml:"nsstat"`
 	QueriesIn   []Counter `xml:"queries-in>rdtype"`
 	Requests    []Counter `xml:"requests>opcode"`

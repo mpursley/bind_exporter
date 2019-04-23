@@ -85,8 +85,10 @@ type Statistics struct {
 
 // Server represents BIND server statistics.
 type Server struct {
+	BindVersion      string
 	BootTime         time.Time
 	ConfigTime       time.Time
+	CurrentTime      time.Time
 	IncomingQueries  []Counter
 	IncomingRequests []Counter
 	NameServerStats  []Counter

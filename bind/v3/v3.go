@@ -32,9 +32,11 @@ type Statistics struct {
 }
 
 type Server struct {
-	BootTime   time.Time  `xml:"boot-time"`
-	ConfigTime time.Time  `xml:"config-time"`
-	Counters   []Counters `xml:"counters"`
+	BindVersion string     `xml:"version"`
+	BootTime    time.Time  `xml:"boot-time"`
+	ConfigTime  time.Time  `xml:"config-time"`
+	CurrentTime time.Time  `xml:"current-time"`
+	Counters    []Counters `xml:"counters"`
 }
 
 type View struct {
@@ -78,8 +80,10 @@ func (c *Client) Stats(groups ...bind.StatisticGroup) (bind.Statistics, error) {
 			return s, err
 		}
 
+		s.Server.BindVersion = stats.Server.BindVersion
 		s.Server.BootTime = stats.Server.BootTime
 		s.Server.ConfigTime = stats.Server.ConfigTime
+		s.Server.CurrentTime = stats.Server.CurrentTime
 		for _, c := range stats.Server.Counters {
 			switch c.Type {
 			case opcode:
